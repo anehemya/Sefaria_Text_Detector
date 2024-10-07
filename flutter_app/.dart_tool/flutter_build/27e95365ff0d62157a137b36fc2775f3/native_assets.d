@@ -1,0 +1,1 @@
+ /Users/akivayeshurun/Programming/Sefaria_Text_Detector/flutter_app/.dart_tool/flutter_build/27e95365ff0d62157a137b36fc2775f3/native_assets.yaml: 
