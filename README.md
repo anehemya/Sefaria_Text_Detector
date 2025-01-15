@@ -51,6 +51,11 @@ Sefaria Text Detector is a mobile application designed to scan Hebrew or English
 
 ---
 
+## Notes
+- For optimal performance on iPhone, use Developer tools (Developer mode for iPhone, Xcode Runner) to emulate the application on your mobile device. The same is true for Android, although the application was primarily designed for iPhone.
+
+---
+
 ## Prerequisites
 
 - Flutter SDK installed on your system ([installation guide](https://docs.flutter.dev/get-started/install)).
