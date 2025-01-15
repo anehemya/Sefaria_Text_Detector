@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'dart:ui';
 import '../services/ocr_service.dart';
 import 'display_results_screen.dart';
 import '../services/dicta_service.dart';
@@ -88,38 +89,63 @@ class _ImageCropperScreenState extends State<ImageCropperScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crop Image'),
+        title: const Text('Crop Image'),
+        elevation: 0, // Modern look with no shadow
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        foregroundColor: Theme.of(context).colorScheme.onSurface,
       ),
       body: Stack(
         children: [
-          Center(
-            child: _croppedImage == null
-                ? Image.file(widget.imageFile)
-                : Image.file(_croppedImage!),
+          // Image display with rounded corners and padding
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Center(
+                child: _croppedImage == null
+                    ? Image.file(widget.imageFile)
+                    : Image.file(_croppedImage!),
+              ),
+            ),
           ),
+          // Processing overlay with blur effect
           if (_isProcessing)
             Container(
-              color: Colors.black54,
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(height: 16),
-                    Text(
-                      'Processing text...',
-                      style: TextStyle(color: Colors.white),
+              color: Colors.black.withOpacity(0.5),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: Center(
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Processing text...',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: _isProcessing ? null : _cropImage,
         tooltip: 'Crop Image',
-        child: Icon(Icons.crop),
+        icon: const Icon(Icons.crop),
+        label: const Text('Crop'),
+        elevation: 4,
       ),
     );
   }
